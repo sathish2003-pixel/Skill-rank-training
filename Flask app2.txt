@@ -1,0 +1,31 @@
+from flask import Flask, jsonify
+from pymongo import MongoClient
+
+app = Flask(__name__)
+
+# MongoDB connection setup
+client = MongoClient("mongodb://localhost:27017/")  # Update with your MongoDB connection string if necessary
+db = client["your_database_name"]  # Replace with your database name
+collection = db["your_collection_name"]  # Replace with your collection name
+
+@app.route('/data', methods=['GET'])
+def get_data():
+    # Define the filter
+    filter = {
+        "version": {"$gte": 8}
+    }
+
+    # Fetch the data
+    results = collection.find(filter)
+
+    # Convert the results to a list of dictionaries
+    data = []
+    for document in results:
+        document["_id"] = str(document["_id"])  # Convert ObjectId to string
+        data.append(document)
+
+    # Return the data as JSON
+    return jsonify(data)
+
+if __name__ == '__main__':
+    app.run(debug=True)

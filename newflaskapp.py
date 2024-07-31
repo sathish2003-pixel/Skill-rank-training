@@ -1,6 +1,6 @@
 from flask import Flask, jsonify,render_template
 from pymongo import MongoClient
-
+from bson.objectid import ObjectId
 app = Flask(__name__)
 
 # MongoDB connection setup
@@ -9,7 +9,7 @@ client = MongoClient(connection)
 db = client["Db1"]  
 collection = db["user"]  
 
-@app.route('/json', methods=['GET'])
+@app.route('/api/json', methods=['GET'])
 def get_data():
     # Select the data from the Mongodb
     results = collection.find()

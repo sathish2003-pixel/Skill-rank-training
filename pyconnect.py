@@ -1,4 +1,4 @@
-from pymongo import MongoClient
+from pymongo import MongoClient,errors
 import json
 #creating a method for insert a data in mongo db
 def insert_data():
@@ -7,13 +7,13 @@ def insert_data():
 
     try:
         # Try block is used to connect to give the conection with the mongodb
-        client = MongoClient(con_str)
+        client = MongoClient(con_str,serverSelectionTimeoutMS=5000)
         # Create a database name
         db = client['Db1']
         #Name of the colllection
         collection = db['user']   
         # Here we are mentioninga file path 
-        file_path="E:/Skill rank/sample.json"
+        file_path="E:/Skill rank/Skill-rank-training/sample.json"
         #opening the file in  a read mode and load the json in a data_set variable
         with open(file_path, "r") as file:
             data_set = json.load(file)
@@ -49,3 +49,13 @@ def insert_data():
 
 #calling the method
 insert_data()
+
+
+
+
+
+
+
+
+
+
